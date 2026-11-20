@@ -4,7 +4,7 @@
 
 <h1 align="center">Also</h1>
 
-<p align="center">A floating note for your Mac. One click to show it, one click to hide it.</p>
+<p align="center">A simple note app for Mac</p>
 
 <p align="center"><a href="https://github.com/graemeswinton/also/releases/latest/download/Also.zip"><strong>Download Also</strong></a> &nbsp;·&nbsp; <a href="../../releases/latest">Release notes</a></p>
 
