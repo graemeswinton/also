@@ -1,5 +1,5 @@
 #!/bin/bash
-# Builds Also.app into ./build — a universal app for Apple Silicon and Intel Macs.
+# Builds Also.app into ./build, for Apple Silicon Macs.
 # Needs Apple's Command Line Tools (xcode-select --install) or Xcode.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -20,11 +20,7 @@ echo "Building Also ${VERSION}..."
 rm -rf build
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
-for arch in arm64 x86_64; do
-  xcrun swiftc -O -target "$arch-apple-macos12.0" Sources/main.swift -o "build/Also-$arch"
-done
-lipo -create -output "$APP/Contents/MacOS/Also" build/Also-arm64 build/Also-x86_64
-rm -f build/Also-arm64 build/Also-x86_64
+xcrun swiftc -O -target arm64-apple-macos12.0 Sources/main.swift -o "$APP/Contents/MacOS/Also"
 
 sed "s/__VERSION__/$VERSION/g" Resources/Info.plist > "$APP/Contents/Info.plist"
 cp Resources/Also.icns "$APP/Contents/Resources/Also.icns"

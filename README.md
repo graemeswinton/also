@@ -33,7 +33,7 @@ Also is a single, quiet note that lives in your menu bar. Click the icon and you
 
 You only need to do steps 3 and 4 once. Also then appears as an icon in your menu bar.
 
-Requires macOS 12 Monterey or later. Works on Apple Silicon and Intel Macs.
+Requires a Mac with Apple Silicon (M1 or later) and macOS 12 Monterey or later.
 
 ## Using Also
 
@@ -61,7 +61,7 @@ This builds Also and puts it in your Applications folder. To build without insta
 
 ## Releasing a new version
 
-Push a tag such as `v1.1`. GitHub Actions builds a universal Also.app and publishes it on the Releases page.
+Push a tag such as `v1.1`. GitHub Actions builds Also.app and publishes it on the Releases page.
 
 ## Licence
 
