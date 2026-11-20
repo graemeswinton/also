@@ -8,6 +8,8 @@
 
 <p align="center"><a href="https://github.com/graemeswinton/also/releases/latest/download/Also.zip"><strong>Download Also</strong></a> &nbsp;·&nbsp; <a href="../../releases/latest">Release notes</a></p>
 
+<p align="center"><img src="Resources/screenshot.jpg" alt="Also showing a short list of notes, separated by faint lines, floating over a desktop photo of reeds"></p>
+
 ---
 
 Also is a single, quiet note that lives in your menu bar. Click the icon and your note appears where you left it. Click again and it's gone. Paste in text from anywhere and it takes on Also's own clean type, so you never end up with a mess of fonts.
