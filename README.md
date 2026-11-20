@@ -67,4 +67,4 @@ Push a tag such as `v1.1`. GitHub Actions builds Also.app and publishes it on th
 
 MIT. See [LICENSE](LICENSE). The menu bar icon is from [Lucide](https://lucide.dev) under the ISC licence. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Made by Graeme Swinton in Bristol.
+Made by Graeme Swinton.
