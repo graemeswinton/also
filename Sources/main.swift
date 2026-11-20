@@ -293,8 +293,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSTextViewDelegate, NS
             statusItem.menu = nil
             return
         }
-        // A plain toggle: open (even behind other windows) → hide; hidden → show
-        if window.isVisible { hideNote() } else { showNote() }
+        // If any part of the note is on screen, hide it. If it's hidden or completely
+        // covered by other windows, bring it to the front — so every click does something visible.
+        let onScreen = window.isVisible && window.occlusionState.contains(.visible)
+        if onScreen { hideNote() } else { showNote() }
     }
 
     func showNote() {
