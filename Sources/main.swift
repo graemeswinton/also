@@ -293,7 +293,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSTextViewDelegate, NS
             statusItem.menu = nil
             return
         }
-        if window.isVisible && (NSApp.isActive || pinned) { hideNote() } else { showNote() }
+        // If you can see the note, hide it. If it's hidden or buried under other windows, bring it up.
+        let onScreen = window.isVisible && window.occlusionState.contains(.visible)
+        if onScreen { hideNote() } else { showNote() }
     }
 
     func showNote() {
