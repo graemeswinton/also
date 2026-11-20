@@ -1,0 +1,38 @@
+name: Build and release
+
+# Push a tag like v1.0 to build Also and publish it on the Releases page.
+# Can also be run by hand from the Actions tab (the build is attached to the run).
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Also.app
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then export VERSION="${GITHUB_REF_NAME#v}"; fi
+          bash scripts/build.sh
+
+      - name: Zip
+        run: ditto -c -k --keepParent build/Also.app build/Also.zip
+
+      - name: Attach to this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: Also
+          path: build/Also.zip
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/Also.zip
+          generate_release_notes: true
