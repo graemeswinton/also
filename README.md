@@ -6,7 +6,7 @@
 
 <p align="center">A floating note for your Mac. One click to show it, one click to hide it.</p>
 
-<p align="center"><a href="../../releases/latest"><strong>Download Also</strong></a></p>
+<p align="center"><a href="https://github.com/graemeswinton/also/releases/latest/download/Also.zip"><strong>Download Also</strong></a> &nbsp;·&nbsp; <a href="../../releases/latest">Release notes</a></p>
 
 ---
 
@@ -26,7 +26,7 @@ Also is a single, quiet note that lives in your menu bar. Click the icon and you
 
 ## Install
 
-1. Download **Also.zip** from the [latest release](../../releases/latest).
+1. [Download Also.zip](https://github.com/graemeswinton/also/releases/latest/download/Also.zip). On the release page, it's the file under **Assets**, not "Source code".
 2. Double-click it to unzip, then drag **Also** into your **Applications** folder.
 3. Open Also. macOS will warn that it can't verify the developer, because Also isn't registered with Apple. Click **Done**.
 4. Open **System Settings → Privacy & Security**, scroll down and click **Open Anyway** next to the message about Also. Confirm with your password.
