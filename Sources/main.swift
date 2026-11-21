@@ -28,7 +28,24 @@ final class PlainTextView: NSTextView {
 
     override func didChangeText() {
         super.didChangeText()
+        markLinks()
         needsDisplay = true
+    }
+
+    private static let linkDetector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+
+    /// Finds web addresses in the note and makes them clickable. They keep the
+    /// note's own colour and are only underlined (see linkTextAttributes).
+    func markLinks() {
+        guard let storage = textStorage, let detector = Self.linkDetector else { return }
+        let full = NSRange(location: 0, length: storage.length)
+        storage.beginEditing()
+        storage.removeAttribute(.link, range: full)
+        detector.enumerateMatches(in: storage.string, options: [], range: full) { match, _, _ in
+            guard let match = match, let url = match.url else { return }
+            storage.addAttribute(.link, value: url, range: match.range)
+        }
+        storage.endEditing()
     }
 
     /// Draws a faint line under every paragraph that has text and ends with a return.
@@ -175,10 +192,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSTextViewDelegate, NS
         nc.addObserver(forName: NSWindow.didBecomeKeyNotification, object: window, queue: .main) { [weak self] _ in self?.tint.active = true }
         nc.addObserver(forName: NSWindow.didResignKeyNotification, object: window, queue: .main) { [weak self] _ in self?.tint.active = false }
 
-        // Leave a strip at the top for the window buttons / dragging
+        // Leave a strip at the top for the window buttons / dragging,
+        // plus some breathing room above and below the text
         let titleStrip: CGFloat = 28
+        let topPadding: CGFloat = 16
+        let bottomPadding: CGFloat = 18
         let b = effect.bounds
-        let scroll = NSScrollView(frame: NSRect(x: 0, y: 0, width: b.width, height: b.height - titleStrip))
+        let scroll = NSScrollView(frame: NSRect(x: 0, y: bottomPadding, width: b.width,
+                                                height: b.height - titleStrip - topPadding - bottomPadding))
         scroll.autoresizingMask = [.width, .height]
         scroll.drawsBackground = false
         scroll.hasVerticalScroller = true
@@ -194,7 +215,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSTextViewDelegate, NS
         textView.isHorizontallyResizable = false
         textView.autoresizingMask = [.width]
         textView.textContainer?.widthTracksTextView = true
-        textView.textContainerInset = NSSize(width: 16, height: 6)
+        textView.textContainerInset = NSSize(width: 34, height: 6)   // side padding
         textView.isRichText = false
         textView.importsGraphics = false
         textView.allowsUndo = true
@@ -203,6 +224,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSTextViewDelegate, NS
         textView.isAutomaticSpellingCorrectionEnabled = false
         textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.isAutomaticDashSubstitutionEnabled = false
+        // Links look like the rest of the note, just underlined
+        textView.linkTextAttributes = [
+            .foregroundColor: NSColor.labelColor,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .cursor: NSCursor.pointingHand,
+        ]
         textView.delegate = self
         scroll.documentView = textView
         effect.addSubview(scroll)
@@ -423,6 +450,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSTextViewDelegate, NS
         if let storage = textView.textStorage {
             storage.setAttributes(attrs, range: NSRange(location: 0, length: storage.length))
         }
+        textView.markLinks()   // setAttributes clears them
     }
 
     func applyPin() {
